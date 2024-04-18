@@ -1,26 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import type { Location, useMatches } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+  ScrollRestoration,
+} from "react-router-dom";
 
-function App() {
+import "./index.css";
+import InfiniteScrollList from "./components/list/List";
+import { ItemProvider } from "./context/RootContext";
+
+let router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <InfiniteScrollList />,
+      },
+      {
+        path: "list",
+        element: <InfiniteScrollList />,
+        handle: { scrollMode: "pathname" },
+      },
+    ],
+  },
+]);
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ItemProvider>
+      <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
+    </ItemProvider>
   );
 }
 
-export default App;
+function Layout() {
+  let getKey = React.useCallback(
+    (location: Location, matches: ReturnType<typeof useMatches>) => {
+      let match = matches.find((m) => (m.handle as any)?.scrollMode);
+      if ((match?.handle as any)?.scrollMode === "pathname") {
+        return location.pathname;
+      }
+
+      return location.key;
+    },
+    []
+  );
+
+  return (
+    <>
+      <div className="wrapper">
+        <div className="right">
+          <Outlet />
+        </div>
+      </div>
+      <ScrollRestoration getKey={getKey} />
+    </>
+  );
+}
