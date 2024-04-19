@@ -1,11 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
-import {
-  Link,
-  ScrollRestoration,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { ScrollRestoration, useLocation, useNavigate } from "react-router-dom";
 
 import "./List.scss";
 import { useItemContext } from "../../context/RootContext";
