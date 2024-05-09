@@ -28,6 +28,7 @@ let router = createBrowserRouter([
     ],
   },
 ]);
+console.log("router", router);
 
 export default function App() {
   return (
