@@ -29,6 +29,8 @@ let router = createBrowserRouter([
   },
 ]);
 
+console.log("test");
+
 export default function App() {
   return (
     <ItemProvider>
