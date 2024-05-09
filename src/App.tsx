@@ -30,6 +30,8 @@ let router = createBrowserRouter([
 ]);
 console.log("router", router);
 
+console.log("test");
+
 export default function App() {
   return (
     <ItemProvider>
